@@ -20,7 +20,7 @@ if(strlen($key) > 0){
 	$query =
         "SELECT year, name " .
         "FROM comps " .
-        "WHERE name LIKE '%$key%'" .
+        "WHERE name LIKE '%$key%' OR year LIKE '%$key%'" .
         "ORDER by year DESC;";
 	$resultComps = mysql_query($query) or die ("Unable to query database for comps.");
 
