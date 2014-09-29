@@ -1,5 +1,5 @@
 <?php
-include 'dbConnect.php';
+include 'dbconnect.php';
 
 //Get vars from URL.
 $comp = mysql_real_escape_string($_GET['comp']);
@@ -22,7 +22,7 @@ else{
 	$result = mysql_query($query) or die ("Unable to fetch results.");
 	
 	//Array of all the chars we want to not show up in the results.
-	//Butch put extra weird record markers in there we're getting rid of.
+	//Butch put extra odd record markers in there we're getting rid of.
 	//Still mark records, but only with a simple * following.
 	$needles = array("!","@","#","%","^","&","*");
 
@@ -43,7 +43,7 @@ else{
 		//Break for each class.
 		if($i[12] == '1' and $ct>1 and $i[0] != '56')
 			insertBlankRow();
-			//insertDiv($i[0]);
+			insertDiv($i[0]);
 		//Big break for sex.
 		if(($i[0] == '56' and $boys == false) or ($i[0] == '62' and $boys == false)){
 			$ct = insertBoys();
@@ -118,7 +118,7 @@ function addSpace($competition){
 	else if ($competition === 'CollegiateNationals') return 'Collegiate Nationals';
 }
 
-//Put each class in a div so we can click and go to it! Passed the class.
+//Put each class in a div so we can click and go to it. Pass the class.
 function insertDiv($class){
 	echo "</DIV>";
 	echo "<DIV id=\"$class\">";

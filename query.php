@@ -1,5 +1,5 @@
 <?php
-include 'dbConnect.php';
+include 'dbconnect.php';
 
 //Get the competition we're looking for from the url.
 $key = $_GET['key'];
@@ -25,8 +25,8 @@ if(strlen($key) > 0){
 	$resultComps = mysql_query($query) or die ("Unable to query database for comps.");
 
 	// All the comps we have for the selected competition are in result[i]'s.
-	if (mysql_num_rows($resultAthletes) == 0 &&
-        mysql_num_rows($resultComps == 0)){
+	if ((mysql_num_rows($resultAthletes) == 0) &&
+        (mysql_num_rows($resultComps) == 0)){
 		echo "No results for " . $key . " as an athlete or competition.";
 	}
     else {
