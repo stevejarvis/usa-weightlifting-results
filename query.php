@@ -16,13 +16,13 @@ if(strlen($key) > 0){
         "ORDER by year DESC;";
 	$resultAthletes = mysql_query($query) or die ("Unable to query database for athletes.");
 
-    // Try to find competitions by the key too.
-	$query =
-        "SELECT year, name " .
-        "FROM comps " .
-        "WHERE name LIKE '%$key%' OR year LIKE '%$key%'" .
-        "ORDER by year DESC;";
-	$resultComps = mysql_query($query) or die ("Unable to query database for comps.");
+    // Try to find competitions by the key too. Search table names directly.
+    $keynospace = preg_replace('/\s+/', '', $key);
+    $tablequery =
+        "SELECT TABLE_NAME " .
+        "FROM INFORMATION_SCHEMA.TABLES " .
+        "WHERE TABLE_NAME like '%$keynospace%'";
+    $resultComps = mysql_query($tablequery) or die ("Unable to get table names.");
 
 	// All the comps we have for the selected competition are in result[i]'s.
 	if ((mysql_num_rows($resultAthletes) == 0) &&
@@ -41,8 +41,10 @@ if(strlen($key) > 0){
         if (! mysql_num_rows($resultComps) == 0){
             echo "<h4>Competitions</h4>";
             while($row = mysql_fetch_array($resultComps)) {
-                $readable = addSpace($row[1]);
-                echo "<a onclick='getTableFromSearch(\"$row[1]\",$row[0], \"tableHere\"); return false;'> The $row[0] $readable.</a><BR>";
+                $compName = substr($row[0], 4);
+                $compYear = substr($row[0], 0, 4);
+                $prettyName = addSpace($compName);
+                echo "<a onclick='getTableFromSearch(\"$compName\",$compYear,\"tableHere\"); return false;'> The $compYear $prettyName.</a><BR>";
             }
         }
     }
