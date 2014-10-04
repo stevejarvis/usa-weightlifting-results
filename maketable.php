@@ -31,7 +31,6 @@ for ($i=1; $i=mysql_fetch_row($result); $i++) {
     //Break for each class.
     if($i[12] == '1' and $ct>1 and $i[0] != '56')
         insertBlankRow();
-    insertDiv($i[0]);
     //Big break for sex.
     if(($i[0] == '56' and $boys == false) or ($i[0] == '62' and $boys == false)){
         $ct = insertBoys();
