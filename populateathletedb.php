@@ -5,9 +5,7 @@
  *do not already exist. Avoid duplicates by no repeating the primary key, which is *key = $name$year$comp.
  */
 
-//Connect to comps.
-$link = mysql_connect("localhost", "usoecwei_kow", "f199sup") or die ("Connect Fail.");
-mysql_select_db("usoecwei_comps", $link) or die ("Select Fail.");
+include 'dbconnect.php';
 
 //Make an array of all meet names. Double loop will look through them all.
 $comps = array("NationalChampionship","AmericanOpen","JuniorNationals","OlympicTrials","SchoolageNationals","CollegiateNationals");
