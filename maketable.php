@@ -12,7 +12,7 @@ $result = mysql_query($query) or die ("Unable to fetch results.");
 // Array of all the chars we want to not show up in the results.
 // Butch put extra odd record markers in there we're getting rid of.
 // Still mark records, but only with a simple * following.
-$needles = array("!","@","#","%","^","&","*");
+$needles = array("!","@","#","%","^","&","*","~","+");
 
 //Title..
 $readable = addSpace($comp);

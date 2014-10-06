@@ -12,8 +12,8 @@ if(strlen($key) > 0){
 	$query =
         "SELECT name, comp, year, class, title " .
         "FROM athletes " .
-        "WHERE name LIKE '%$key%'" .
-        "ORDER by year DESC;";
+        "WHERE name LIKE '%$key%' " .
+        "ORDER BY year DESC;";
 	$resultAthletes = mysql_query($query) or die ("Unable to query database for athletes.");
 
     // Try to find competitions by the key too. Search table names directly.
@@ -21,7 +21,8 @@ if(strlen($key) > 0){
     $tablequery =
         "SELECT TABLE_NAME " .
         "FROM INFORMATION_SCHEMA.TABLES " .
-        "WHERE TABLE_NAME like '%$keynospace%'";
+        "WHERE TABLE_NAME like '%$keynospace%' AND TABLE_TYPE = 'BASE TABLE' " .
+        "ORDER BY TABLE_NAME DESC;";
     $resultComps = mysql_query($tablequery) or die ("Unable to get table names.");
 
 	// All the comps we have for the selected competition are in result[i]'s.
