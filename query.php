@@ -1,5 +1,7 @@
 <?php
+
 include 'dbconnect.php';
+include 'utils.php';
 
 //Get the competition we're looking for from the url.
 $key = $_GET['key'];
@@ -49,22 +51,12 @@ if(strlen($key) > 0){
             while($row = mysql_fetch_array($resultComps)) {
                 $compName = substr($row[0], 4);
                 $compYear = substr($row[0], 0, 4);
-                $prettyName = addSpace($compName);
+                $prettyName = prettyPrint($compName);
                 echo "<a onclick='getTableFromSearch(\"$compName\",$compYear,\"tableHere\"); return false;'> The $compYear $prettyName.</a><BR>";
             }
             echo "</p>";
         }
     }
-}
-
-//Change the comps to their name with a space
-function addSpace($competition){
-	if ($competition === 'NationalChampionship') return 'National Championship';
-	else if ($competition === 'AmericanOpen') return 'American Open';
-	else if ($competition === 'JuniorNationals') return 'Junior Nationals';
-	else if ($competition === 'OlympicTrials') return 'Olympic Trials';
-	else if ($competition === 'SchoolageNationals') return 'Schoolage Nationals';
-	else if ($competition === 'CollegiateNationals') return 'Collegiate Nationals';
 }
 
 ?>

@@ -6,20 +6,26 @@
  */
 
 include 'dbconnect.php';
+include 'utils.php';
 
-//Make an array of all meet names. Double loop will look through them all.
-$comps = array("NationalChampionship","AmericanOpen","JuniorNationals","OlympicTrials","SchoolageNationals","CollegiateNationals");
+// Select all the competition tables.
+$tablequery =
+    "SELECT TABLE_NAME " .
+    "FROM INFORMATION_SCHEMA.TABLES " .
+    "WHERE TABLE_NAME != 'athletes' AND TABLE_TYPE = 'BASE TABLE' " .
+    "ORDER BY TABLE_NAME DESC;";
+$result = mysql_query($tablequery) or die ("Unable to get tables.");
 
-for($i=0;$i<sizeof($comps);$i++){
-	for($year=1998;$year<=date('Y');$year++){	//1998 is the epoch
-		echo "COMP is $comps[$i]<BR>";
-		addNonDuplicates(getAllNames($comps[$i],$year),$comps[$i],$year);
-	}
+// Add all the data in each competition table to the athlete-centric table.
+while($row = mysql_fetch_array($result)) {
+    $compName = substr($row[0], 4);
+    $compYear = substr($row[0], 0, 4);
+    addNonDuplicates(getAllNames($row[0]),$compName,$compYear);
 }
-
+ 
 //Get all the participants from the current meet.
-function getAllNames($comp,$year){
-	$query = "SELECT name, class, place FROM $year$comp;";
+function getAllNames($tablename){
+	$query = "SELECT name, class, place FROM $tablename;";
 	echo "$query<BR>";
 	$results = mysql_query($query);
 	return $results;
@@ -28,21 +34,10 @@ function getAllNames($comp,$year){
 //Add the names to the athletes database. Add *key *name *comp *class *place.
 function addNonDuplicates($results,$comp,$year){
 	for ($i=0; $i=mysql_fetch_row($results); $i++) {
-		$compName = addSpace($comp);	//Get readable version
+		$compName = prettyPrint($comp);	//Get readable version
 		$query = "INSERT IGNORE INTO athletes VALUES ('$i[0]$year$comp','$i[0]','$year','$compName','$comp','$i[1]','$i[2]');";
 		echo "$query<BR>";
 		mysql_query($query);
 	}
-}
-
-//Change the comps to their name with a space
-function addSpace($competition){
-	if ($competition === 'NationalChampionship') return 'National Championship';
-	else if ($competition === 'AmericanOpen') return 'American Open';
-	else if ($competition === 'AmericanOpen') return 'American Open';
-	else if ($competition === 'JuniorNationals') return 'Junior Nationals';
-	else if ($competition === 'OlympicTrials') return 'Olympic Trials';
-	else if ($competition === 'SchoolageNationals') return 'Schoolage Nationals';
-	else if ($competition === 'CollegiateNationals') return 'Collegiate Nationals';
 }
 ?>

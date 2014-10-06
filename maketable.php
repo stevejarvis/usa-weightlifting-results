@@ -1,5 +1,6 @@
 <?php
 include 'dbconnect.php';
+include 'utils.php';
 
 // Get vars from URL.
 $comp = mysql_real_escape_string($_GET['comp']);
@@ -15,7 +16,7 @@ $result = mysql_query($query) or die ("Unable to fetch results.");
 $needles = array("!","@","#","%","^","&","*","~","+");
 
 //Title..
-$readable = addSpace($comp);
+$readable = prettyPrint($comp);
 ?>
 <div id="title"><h2> <?php echo "<B>$year $readable</B><BR>";?> </h2></div>
 <?php
@@ -96,15 +97,5 @@ function insertGenericHeader(){
 
 function insertEndTable() {
     echo "</TABLE>";
-}
-
-// Change the comps to their name with a space
-function addSpace($competition){
-	if ($competition === 'NationalChampionship') return 'National Championship';
-	else if ($competition === 'AmericanOpen') return 'American Open';
-	else if ($competition === 'JuniorNationals') return 'Junior Nationals';
-	else if ($competition === 'OlympicTrials') return 'Olympic Trials';
-	else if ($competition === 'SchoolageNationals') return 'Schoolage Nationals';
-	else if ($competition === 'CollegiateNationals') return 'Collegiate Nationals';
 }
 ?>
