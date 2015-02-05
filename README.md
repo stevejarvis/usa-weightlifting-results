@@ -66,3 +66,8 @@ password: <password>
 To run the code and see that results are returned as expected, set it up on a local MySQL
 and web server. The javascript used at [nerdster](https://github.com/stevejarvis/stevejarvis.github.io)
 could help get it going, just change URIs as necessary.
+
+# License
+The PHP and Javascript is available under the MIT License.
+The Databases themselves are available under the GPLv3, as I'd like the data
+to stay freely available.
